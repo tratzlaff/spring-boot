@@ -1,3 +1,14 @@
+/**
+ * Gradle build script for sample Spring Boot app.
+ * See http://spring.io/guides/gs/spring-boot/#scratch.
+ *
+ * Spring Boot Gradle plugin
+ * http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html
+ *
+ * Spring Boot Actuator: Production-ready features
+ * http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready
+ */
+
 buildscript {
     repositories {
         mavenCentral()
@@ -37,8 +48,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     // end::actuator[]
 
-    testCompile("junit:junit")
+    //testCompile("junit:junit") // JUnit is provided via the spring-boot-starter-test dependency.
 
+    // See http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
+    // and http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#testing
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

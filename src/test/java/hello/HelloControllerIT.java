@@ -17,6 +17,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple
+ * full-stack integration test. For example, instead of (or as well as) the mock test in HelloControllerTest
+ * we could do the following.
+ *
+ * The embedded server is started up on a random port by virtue of the @IntegrationTest("${server.port=0}")
+ * and the actual port is discovered at runtime with the @Value("${local.server.port}").
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
