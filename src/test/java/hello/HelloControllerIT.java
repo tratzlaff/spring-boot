@@ -8,39 +8,40 @@ import java.net.URL;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 
 /**
  * As well as mocking the HTTP request cycle we can also use Spring Boot to write a very simple
  * full-stack integration test. For example, instead of (or as well as) the mock test in HelloControllerTest
  * we could do the following.
  *
- * The embedded server is started up on a random port by virtue of the @IntegrationTest("${server.port=0}")
- * and the actual port is discovered at runtime with the @Value("${local.server.port}").
+ * The @RunWith(SpringRunner.class) tells JUnit to run using Spring’s testing support.
+ * The @SpringBootTest is saying “bootstrap with Spring Boot’s support”
+ * (e.g. load application.properties and give me all the Spring Boot goodness).
+ * The webEnvironment attribute allows specific “web environments” to be configured for the test.
+ * You can start tests with a MOCK servlet environment or with a real HTTP server running on either
+ * a RANDOM_PORT or a DEFINED_PORT.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest({"server.port=0"})
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloControllerIT {
 
-    @Value("${local.server.port}")
+    @LocalServerPort //discovers actual port at runtime
     private int port;
 
 	private URL base;
-	private RestTemplate template;
+
+    @Autowired
+    private TestRestTemplate template;
 
 	@Before
 	public void setUp() throws Exception {
 		this.base = new URL("http://localhost:" + port + "/");
-		template = new TestRestTemplate();
 	}
 
 	@Test

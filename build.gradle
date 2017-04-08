@@ -9,22 +9,14 @@
  * http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.6.RELEASE")
-    }
+plugins {
+    id 'org.springframework.boot' version '1.5.2.RELEASE'
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'gs-spring-boot'
+    baseName = 'spring-boot-sample'
     version =  '0.1.0'
 }
 
@@ -56,5 +48,5 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.7'
+    gradleVersion = '3.4.1'
 }
