@@ -2,9 +2,11 @@ package hello;
 
 import java.util.Arrays;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * http://spring.io/guides/gs/spring-boot/#_create_an_application_class
@@ -21,7 +23,7 @@ import org.springframework.context.ApplicationContext;
  *
  *  Run the application:
  *  1) ./gradlew build
- *  2) java -jar build/libs/gs-spring-boot-0.1.0.jar
+ *  2) java -jar build/libs/spring-boot-sample-0.1.0.jar
  *
  *  Check out the service:
  *  localhost:8080
@@ -30,23 +32,30 @@ import org.springframework.context.ApplicationContext;
 public class Application {
 
     /**
-     * Uses Spring Boot's SpringApplication.run() method to launch an application.
-     * The run() method returns an ApplicationContext and this application then retrieves all the beans that
-     * were created either by your app or were automatically added thanks to Spring Boot. It sorts them and
-     * prints them out.
-     *
-     * @param args
+     * The main() method uses Spring Boot’s SpringApplication.run() method to launch an application.
      */
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        SpringApplication.run(Application.class, args);
+    }
 
-        System.out.println("Let's inspect the beans provided by Spring Boot:");
+    /**
+     * There is also a CommandLineRunner method marked as a @Bean and this runs on start up.
+     * It retrieves all the beans that were created either by your app or were automatically
+     * added thanks to Spring Boot. It sorts them and prints them out.
+     */
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
 
-        String[] beanNames = ctx.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            System.out.println(beanName);
-        }
+            System.out.println("Let's inspect the beans provided by Spring Boot:");
+
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            for (String beanName : beanNames) {
+                System.out.println(beanName);
+            }
+
+        };
     }
 
 }
